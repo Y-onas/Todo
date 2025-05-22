@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Class Todo" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="header-content">
+        <div class="greeting-container">
+          <div class="greeting">
+            <%= time_based_greeting %>
+          </div>
+          <%= button_to "Refresh Time", root_path, method: :get, class: "btn btn-sm btn-outline-primary refresh-time" %>
+        </div>
+        <div class="visit-info">
+          <% if @current_visit %>
+            <p class="last-visited">
+              Last visited:
+              <% if @last_visited_at.present? %>
+                <%= Visit.new(last_visited_at: @last_visited_at).time_since_last_visit %>
+              <% else %>
+                <%= @current_visit.time_since_last_visit %>
+              <% end %>
+            </p>
+            <p class="page-visits">This page: <%= pluralize(@current_visit.visit_count, 'visit') %></p>
+            <p class="total-visits">Total site visits: <%= pluralize(@total_visits, 'visit') %></p>
+          <% else %>
+            <p class="last-visited">First visit!</p>
+            <p class="total-visits">Total site visits: <%= pluralize(@total_visits, 'visit') %></p>
+          <% end %>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <%= yield %>
+    </main>
+  </body>
+</html>

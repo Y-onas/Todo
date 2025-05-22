@@ -1,0 +1,15 @@
+<div class="todo-show">
+  <h1>Todo Details</h1>
+  
+  <% if notice %>
+    <p class="notice"><%= notice %></p>
+  <% end %>
+
+  <%= render @todo %>
+
+  <div class="todo-actions">
+    <%= link_to "Edit this todo", edit_todo_path(@todo), class: "edit-link" %>
+    <%= link_to "Back to todos", todos_path, class: "back-link" %>
+    <%= button_to "Delete this todo", @todo, method: :delete, class: "delete-button", data: { confirm: "Are you sure?" } %>
+  </div>
+</div>

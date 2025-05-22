@@ -1,0 +1,19 @@
+<div id="<%= dom_id todo %>" class="todo-details">
+  <p>
+    <strong>Title:</strong>
+    <%= todo.title %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= todo.description %>
+  </p>
+
+  <p>
+    <strong>Status:</strong>
+    <span class="todo-status <%= todo.completed ? 'completed' : 'not-completed' %>">
+      <%= todo.completed ? "Completed" : "Not Completed" %>
+    </span>
+  </p>
+
+</div>

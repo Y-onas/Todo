@@ -1,0 +1,36 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Todos" %>
+
+<div class="todos-container">
+  <div class="todos-header">
+    <h1>My Todos</h1>
+    <%= link_to "New Todo", new_todo_path, class: "btn btn-primary" %>
+  </div>
+
+  <div class="todos-list">
+    <% if @todos.any? %>
+      <% @todos.each do |todo| %>
+        <div class="todo-item <%= 'completed' if todo.completed %>">
+          <div class="todo-content">
+            <h3><%= todo.title %></h3>
+            <p><%= todo.description %></p>
+            <div class="todo-status">
+              Status: <%= todo.completed ? 'Completed' : 'Incomplete' %>
+            </div>
+          </div>
+          <div class="todo-actions">
+            <%= link_to "Edit", edit_todo_path(todo), class: "btn btn-sm btn-outline-primary" %>
+            <%= button_to "Delete", todo_path(todo), method: :delete, class: "btn btn-sm btn-outline-danger", data: { confirm: "Are you sure?" } %>
+            <%= button_to todo.completed ? "Mark Incomplete" : "Mark Complete", 
+                        toggle_completed_todo_path(todo), 
+                        method: :patch, 
+                        class: "btn btn-sm #{todo.completed ? 'btn-outline-warning' : 'btn-outline-success'}" %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="no-todos">No todos yet. Create your first todo!</p>
+    <% end %>
+  </div>
+</div>
